@@ -1,14 +1,36 @@
-public class Person
-{
+public class Person {
     private String IDNum;
     private String firstName;
     private String lastName;
     private String title;
     private int YOB;
-    static private int IDSeed =  1;
+    private static int IDSeed = 1;
+
 
     public Person(String firstName, String lastName, String ID, String title, int YOB) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.IDNum = ID;
+        this.title = title;
+        this.YOB = YOB;
     }
+
+
+    public Person(String IDNum, String firstName, String lastName, int YOB) {
+        this.IDNum = IDNum;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.YOB = YOB;
+    }
+
+
+    public Person(String firstName, String lastName, int YOB) {
+        this.IDNum = genIDNum();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.YOB = YOB;
+    }
+
 
     public static void setIDSeed(int IDSeed) {
         Person.IDSeed = IDSeed;
@@ -18,75 +40,60 @@ public class Person
         return IDSeed;
     }
 
-    public Person(String IDNum, String firstName, String lastName, int YOB)
-    {
-        this.IDNum = IDNum;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.YOB = YOB;
-    }
 
-    public Person(String firstName, String lastName, int YOB)
-    {
-        this.IDNum = this.genIDNum();
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.YOB = YOB;
-    }
+    public String getIDNum() { return IDNum; }
+    public void setIDNum(String IDNum) { this.IDNum = IDNum; }
 
-    public String getTitle() {
-        return title;
-    }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public String getIDNum() {
-        return IDNum;
-    }
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
+
+    public int getYOB() { return YOB; }
+    public void setYOB(int YOB) { this.YOB = YOB; }
+
 
     private String genIDNum() {
-        String newID = "" + IDSeed;
-        while(newID.length() < 8)
-        {
+        String newID = String.valueOf(IDSeed);
+        while (newID.length() < 8) {
             newID = "0" + newID;
         }
-
         IDSeed++;
-
         return newID;
     }
 
-    public void setIDNum(String IDNum) {
-        this.IDNum = IDNum;
-    }
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getYOB() {
-        return YOB;
-    }
-
-    public void setYOB(int YOB) {
-        this.YOB = YOB;
+    public String toCSVRecord() {
+        return IDNum + "," + firstName + "," + lastName + "," + YOB;
     }
 
 
+    public String toXMLRecord() {
+        String ret = "<Person>";
+        ret += "<IDNum>" + IDNum + "</IDNum>";
+        ret += "<FirstName>" + firstName + "</FirstName>";
+        ret += "<LastName>" + lastName + "</LastName>";
+        if (title != null) ret += "<Title>" + title + "</Title>";
+        ret += "<YOB>" + YOB + "</YOB>";
+        ret += "</Person>";
+        return ret;
+    }
+
+
+    public String toJSONRecord() {
+        String ret = "{";
+        ret += "\"IDNum\": \"" + IDNum + "\", ";
+        ret += "\"firstName\": \"" + firstName + "\", ";
+        ret += "\"lastName\": \"" + lastName + "\", ";
+        ret += "\"title\": \"" + (title != null ? title : "") + "\", ";
+        ret += "\"YOB\": " + YOB;
+        ret += "}";
+        return ret;
+    }
 
     @Override
     public String toString() {
@@ -94,6 +101,7 @@ public class Person
                 "IDNum='" + IDNum + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
+                ", title='" + title + '\'' +
                 ", YOB=" + YOB +
                 '}';
     }
@@ -101,35 +109,11 @@ public class Person
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Person)) return false;
         Person person = (Person) o;
-        return YOB == person.YOB && IDNum.equals(person.IDNum) && firstName.equals(person.firstName) && lastName.equals(person.lastName);
-    }
-
-    public String toJSONRecord()
-    {
-        String retString = "";
-        char DQ = '\u0022';  // Assign the double quote char to a variable
-        retString =  "{" + DQ + "IDNum" + DQ + ":" + DQ + this.IDNum + DQ + ",";
-        retString += DQ + "firstName" + DQ + ":" + DQ + this.firstName + DQ + ",";
-        retString += " " + DQ + "lastName"  + DQ + ":" + DQ + this.lastName + DQ + ",";
-        retString += " " + DQ + "YOB"  + DQ + ":" + this.YOB + "}";
-
-        return retString;
-    }
-
-    public String toXMLRecord()
-    {
-        String retString = "";
-
-        retString = "<Person>" + "<IDNum>" + this.IDNum + "</IDNum>";
-        retString += "<firstName>" + this.firstName + "</firstName>";
-        retString += "<lastName>" + this.lastName + "</lastName>";
-        retString += "<YOB>" + this.YOB + "</YOB></Person>";
-
-        return retString;
-    }
-    public String toCSVRecord() {
-        return  this.IDNum + ", " + this.firstName + "," + this.lastName + "," + YOB;
+        return YOB == person.YOB &&
+                IDNum.equals(person.IDNum) &&
+                firstName.equals(person.firstName) &&
+                lastName.equals(person.lastName);
     }
 }

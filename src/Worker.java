@@ -29,23 +29,29 @@ public class Worker extends Person {
 
 @Override
     public String toCSVRecord() {
-        return super.toCSVRecord() + ", " + this.hourlyPay;
-}
+        return getFirstName() + "," + getLastName() + "," + getIDNum() + "," + getTitle() + "," + getYOB() + "," + this.hourlyPay;
+    }
 
 @Override
     public String toXMLRecord() {
-        return "<Person>" + "<FirstName>" + getFirstName() + "</FirstName>" + "<LastName>" + getLastName() + "</LastName>" + "<ID>" + getIDNum() + "</ID>" + "<YOB>" + getYOB() + "</YOB>" + "<HourlyPay>" + this.hourlyPay + "</HourlyPay>" + "</Person>";
+        return "<Person>"
+                + "<FirstName>" + getFirstName() + "</FirstName>"
+                + "<LastName>" + getLastName() + "</LastName>"
+                + "<ID>" + getIDNum() + "</ID>"
+                + "<Title>" + getTitle() + "</Title>"
+                + "<YOB>" + getYOB() + "</YOB>"
+                + "<HourlyPay>" + this.hourlyPay + "</HourlyPay>"
+                + "</Person>";
     }
 
+
     public String toJSONRecord() {
-        return "{"
-                + "\"firstName\": \"" + getFirstName() + "\", "
+        return "{\"firstName\": \"" + getFirstName() + "\", "
                 + "\"lastName\": \"" + getLastName() + "\", "
                 + "\"ID\": \"" + getIDNum() + "\", "
                 + "\"title\": \"" + getTitle() + "\", "
                 + "\"YOB\": " + getYOB() + ", "
-                + "\"hourlyPay\": " + this.hourlyPay
-                + "}";
+                + "\"hourlyPay\": " + this.hourlyPay + "}";
     }
 
 

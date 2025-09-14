@@ -1,37 +1,35 @@
-public class SalaryWorker extends Worker{
-    protected double salary;
+public class SalaryWorker extends Worker {
+    private double salary;
 
-    public SalaryWorker(String firstName, String lastName, String ID, String title, int YOB, double hourlyPay, double salary){
+    public SalaryWorker(String firstName, String lastName, String ID, String title, int YOB, double hourlyPay, double salary) {
         super(firstName, lastName, ID, title, YOB, hourlyPay);
         this.salary = salary;
     }
 
     @Override
-    public double calculateWeeklyPay(double hoursWork){
-        return salary/52;
-    }
-
-    @Override
-    public void displayWeeklyPay(double hoursWork){
-        System.out.printf("Weekly pay of Annual salary: $%.2f%n", calculateWeeklyPay(hoursWork));
+    public double calculateWeeklyPay(double hoursWorked) {
+        return salary / 52;
     }
 
     @Override
     public String toCSVRecord() {
-        return super.toCSVRecord() + ", " + salary;
+        return getIDNum() + "," + getFirstName() + "," + getLastName() + "," + getYOB() + "," + hourlyPay + "," + salary;
     }
 
     @Override
     public String toXMLRecord() {
-        return "<Person>" + "<FirstName>" + getFirstName() + "</FirstName>"
+        return "<Person>"
+                + "<FirstName>" + getFirstName() + "</FirstName>"
                 + "<LastName>" + getLastName() + "</LastName>"
                 + "<ID>" + getIDNum() + "</ID>"
+                + "<Title>" + getTitle() + "</Title>"
                 + "<YOB>" + getYOB() + "</YOB>"
-                + "<HourlyPay>" + this.hourlyPay + "</HourlyPay>"
-                + "<Salary>" + this.salary + "</Salary>"
+                + "<HourlyPay>" + hourlyPay + "</HourlyPay>"
+                + "<Salary>" + salary + "</Salary>"
                 + "</Person>";
     }
 
+    @Override
     public String toJSONRecord() {
         return "{"
                 + "\"firstName\": \"" + getFirstName() + "\", "
@@ -39,11 +37,8 @@ public class SalaryWorker extends Worker{
                 + "\"ID\": \"" + getIDNum() + "\", "
                 + "\"title\": \"" + getTitle() + "\", "
                 + "\"YOB\": " + getYOB() + ", "
-                + "\"hourlyPay\": " + this.hourlyPay
-                + "\"salary: " + this.salary
+                + "\"hourlyPay\": " + hourlyPay + ", "
+                + "\"salary\": " + salary
                 + "}";
     }
-
 }
-
-
