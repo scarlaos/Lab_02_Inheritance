@@ -22,7 +22,7 @@ public class InheritanceDemo
         workers.add(salaryWorkerII);
         workers.add(salaryWorkerIII);
 
-        double[] hoursWorked = {40,50,30};
+        double[] hoursWorked = {40,50,40};
         for(int i=0; i<3; i++){
             System.out.printf("Week %d Pay$%n", i + 1);
             for(Worker worker : workers){
